@@ -20,10 +20,17 @@ function virtualenv_prompt() {
     fi
 }
 
+function docker_prompt() {
+    if [ ! -z "$DOCKER_MACHINE_NAME" ]
+    then
+        local docker=$DOCKER_MACHINE_NAME
+        echo " ${orange}Docker:$DOCKER_MACHINE_NAME ${red}$CLOCK_CHAR "
+    fi
+}
+
 function prompt_command() {
-    #PS1="${bold_cyan}$(scm_char)${green}$(scm_prompt_info)${purple}$(ruby_version_prompt) ${yellow}\h ${reset_color}in ${green}\w ${reset_color}\n${green}→${reset_color} "
-    PS1="\n$(battery_char) $(clock_char) ${purple}\h ${reset_color}in ${green}\w"
-    PS1="$PS1\n${yellow}$(virtualenv_prompt)${bold_cyan}$(scm_char)${green}$(scm_prompt_info) ${bold_blue}>${normal} "
+    PS1="\n$(battery_char) $(clock_char) $(docker_prompt)${purple}\h ${reset_color}in ${green}\w\n"
+    PS1="$PS1${yellow}$(virtualenv_prompt)${bold_cyan}$(scm_char)${green}$(scm_prompt_info) ${bold_blue}>${normal} "
 }
 
 PROMPT_COMMAND=prompt_command;
