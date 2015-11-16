@@ -15,7 +15,7 @@ RVM_THEME_PROMPT_SUFFIX="|"
 function virtualenv_prompt() {
     if [ ! -z "$VIRTUAL_ENV" ]
     then
-        local env=$(dirname $VIRTUAL_ENV)
+        local env=$(basename $VIRTUAL_ENV)
         echo "(${env##*/}~$(py_interp_prompt)) "
     fi
 }
