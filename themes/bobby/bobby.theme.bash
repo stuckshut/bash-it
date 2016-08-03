@@ -33,4 +33,4 @@ function prompt_command() {
     PS1="$PS1${yellow}$(virtualenv_prompt)${bold_cyan}$(scm_char)${green}$(scm_prompt_info) ${bold_blue}>${normal} "
 }
 
-PROMPT_COMMAND=prompt_command;
+safe_append_prompt_command prompt_command
