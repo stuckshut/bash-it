@@ -28,6 +28,13 @@ function docker_prompt() {
     fi
 }
 
+function batt_prompt() {
+    if [ $(battery_char) != '' ]
+    then
+        echo "$(battery_char) "
+    fi
+}
+
 function colored_uid() {
     if [ \$ == "#" ]
     then
@@ -40,7 +47,7 @@ function colored_uid() {
 }
 
 function prompt_command() {
-    PS1="\n$(battery_char) $(clock_prompt) $(docker_prompt)${green}\u${bold_blue}@${purple}\h ${reset_color}in ${green}\w\n"
+    PS1="\n$(batt_prompt)$(clock_prompt) $(docker_prompt)${green}\u${bold_blue}@${purple}\h ${reset_color}in ${green}\w\n"
     PS1="$PS1${yellow}$(virtualenv_prompt)${bold_cyan}$(scm_char)${green}$(scm_prompt_info) $(colored_uid)${bold_blue}>${normal} "
 }
 
