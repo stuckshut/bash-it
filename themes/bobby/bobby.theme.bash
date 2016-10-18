@@ -28,9 +28,20 @@ function docker_prompt() {
     fi
 }
 
+function colored_uid() {
+    if [ \$ == "#" ]
+    then
+        echo "${red}#"
+    fi
+    if [ \$ == "$" ]
+    then
+        echo "${bold_blue}$"
+    fi
+}
+
 function prompt_command() {
-    PS1="\n$(battery_char) $(clock_char) $(docker_prompt)${purple}\h ${reset_color}in ${green}\w\n"
-    PS1="$PS1${yellow}$(virtualenv_prompt)${bold_cyan}$(scm_char)${green}$(scm_prompt_info) ${bold_blue}>${normal} "
+    PS1="\n$(battery_char) $(clock_char) $(docker_prompt)${green}\u${white}@${purple}\h ${reset_color}in ${green}\w\n"
+    PS1="$PS1${yellow}$(virtualenv_prompt)${bold_cyan}$(scm_char)${green}$(scm_prompt_info) $(colored_uid)${bold_blue}>${normal} "
 }
 
 safe_append_prompt_command prompt_command
