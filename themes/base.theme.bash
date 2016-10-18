@@ -16,8 +16,12 @@ SCM_THEME_BRANCH_GONE_PREFIX=' ⇢ '
 SCM_THEME_CURRENT_USER_PREFFIX=' ☺︎ '
 SCM_THEME_CURRENT_USER_SUFFIX=''
 
-CLOCK_CHAR='☆'
-THEME_CLOCK_CHECK=${THEME_CLOCK_CHECK:=true}
+CLOCK_CHAR='⌚'
+THEME_CLOCK_CHAR_COLOR=${THEME_CLOCK_CHAR_COLOR:="${red}"}
+[ -z $THEME_SHOW_CLOCK ] && THEME_SHOW_CLOCK=${THEME_CLOCK_CHECK:-true}
+THEME_CLOCK_FORMAT=${THEME_CLOCK_FORMAT:="%Y-%m-%d %H:%M:%S"}
+THEME_CLOCK_COLOR=${THEME_CLOCK_COLOR:="${bold_cyan}"}
+
 THEME_BATTERY_PERCENTAGE_CHECK=${THEME_BATTERY_PERCENTAGE_CHECK:=true}
 
 SCM_GIT_SHOW_DETAILS=${SCM_GIT_SHOW_DETAILS:=true}
@@ -86,13 +90,13 @@ function scm_prompt_vars {
 }
 
 function scm_prompt_info {
-  scm
-  scm_prompt_char
-  SCM_DIRTY=0
-  SCM_STATE=''
-  [[ $SCM == $SCM_GIT ]] && git_prompt_info && return
-  [[ $SCM == $SCM_HG ]] && hg_prompt_info && return
-  [[ $SCM == $SCM_SVN ]] && svn_prompt_info && return
+  scm_prompt_vars
+  if [ $SCM == $SCM_HG ]; then
+    echo -e "$SCM_PREFIX$SCM_BRANCH:${SCM_CHANGE#*:}$SCM_STATE$SCM_SUFFIX"
+  else
+    echo -e "$SCM_PREFIX$SCM_BRANCH$SCM_STATE$SCM_SUFFIX"
+  fi
+  return
 }
 
 function git_status_summary {
@@ -371,9 +375,13 @@ function prompt_char {
 }
 
 function clock_char {
-    if [[ "${THEME_CLOCK_CHECK}" = true ]]; then
-        DATE_STRING=$(date +"%Y-%m-%d %H:%M:%S")
-        echo -e "${bold_cyan}$DATE_STRING ${red}$CLOCK_CHAR"
+    echo -e "${THEME_CLOCK_CHAR_COLOR}$CLOCK_CHAR"
+}
+
+function clock_prompt {
+    if [[ "${THEME_SHOW_CLOCK}" = true ]]; then
+        DATE_STRING=$(date +"${THEME_CLOCK_FORMAT}")
+        echo -e "${THEME_CLOCK_COLOR}$DATE_STRING"
     fi
 }
 
