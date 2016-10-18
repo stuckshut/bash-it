@@ -29,7 +29,7 @@ function docker_prompt() {
 }
 
 function batt_prompt() {
-    if [ $(battery_char) != '' ]
+    if [ "$(battery_char)" != "" ]
     then
         echo "$(battery_char) "
     fi
